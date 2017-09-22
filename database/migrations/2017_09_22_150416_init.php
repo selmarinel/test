@@ -13,7 +13,13 @@ class init extends Migration
      */
     public function up()
     {
-        Schema::create('feedback_field_type', function (Blueprint $table) {
+        Schema::create('products', function(Blueprint $table){
+           $table->increments("id");
+           $table->string("name");
+           $table->timestamps();
+        });
+
+        Schema::create('input_type', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
             $table->timestamps();
@@ -23,7 +29,6 @@ class init extends Migration
             $table->increments('id');
             $table->string("name")->unique();
             $table->integer("type_id")->referenced("id")->on("feedback_field_type");
-            $table->text('rules')->nullable();
             $table->timestamps();
         });
 

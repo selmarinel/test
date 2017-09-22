@@ -11,18 +11,19 @@ class initTest extends Seeder
      */
     public function run()
     {
-        $types = [
-            ["id" => 1, "name" => "text"],
-            ["id" => 2, "name" => "number"],
-            ["id" => 3, "name" => "checkbox"],
-            ["id" => 4, "name" => "radio"],
-
+        $products = [
+            ["name" => "Staubsauger X150"],
+            ["name" => "Waschmaschine 5000"],
+            ["name" => "Telefon Berry 3"],
         ];
-        foreach ($types as $type){
-            \App\Model\FieldTypes::query()->create($type);
+        foreach ($products as $product) {
+            \App\Model\Produkts::query()->create([$product]);
         }
 
 
+        foreach ($types as $type) {
+            \App\Model\FieldTypes::query()->create($type);
+        }
 
     }
 }
