@@ -29,6 +29,11 @@ class InputType extends Type implements InputInterface
         $this->additional = $additional;
     }
 
+    public function getAdditional()
+    {
+        return $this->additional;
+    }
+
     private $additional = [];
 
     private $type = 'text';

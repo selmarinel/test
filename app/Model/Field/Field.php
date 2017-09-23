@@ -61,13 +61,13 @@ class Field extends Model
         if ($type->getId() == Type::RATING) {
             return new RatingType($type->getAttributes());
         }
-        if($type->getId() == Type::AUTOCOMPLETE){
-            $input = new InputType($type->getAttributes());
-            $input->setAdditional(["data-url" => "url"]);
-            return $input;
-        }
         $input = new InputType($type->getAttributes());
         $input->setAdditional(["data-type" => $type->getName()]);
+
+        if ($type->getId() == Type::ALTER) {
+            $input->setAdditional(array_merge($input->getAdditional(), ["pattern" => "19[0-9]{2}", "maxlength" => 4]));
+        }
+
         return $input;
     }
 }
