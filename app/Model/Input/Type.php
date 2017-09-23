@@ -23,7 +23,9 @@ class Type extends Model implements InputInterface
 
     public function render()
     {
-        // TODO: Implement render() method.
+        return [
+            "name" => $this->getName(),
+        ];
     }
 
     const GENDER = 1;
