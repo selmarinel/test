@@ -25,17 +25,10 @@ class init extends Migration
             $table->timestamps();
         });
 
-        Schema::create('feedback_fields', function (Blueprint $table) {
+        Schema::create('fields', function (Blueprint $table) {
             $table->increments('id');
             $table->string("name")->unique();
-            $table->integer("type_id")->referenced("id")->on("feedback_field_type");
-            $table->timestamps();
-        });
-
-        Schema::create('feedback_form',function (Blueprint $table){
-            $table->increments('id');
-            $table->integer("feedback_id");
-            $table->text("value");
+            $table->integer("type_id")->referenced("id")->on("input_type");
             $table->timestamps();
         });
     }
