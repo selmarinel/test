@@ -2,7 +2,6 @@
 
 namespace App\Model\Input;
 
-use App\Model\Produkts;
 use Illuminate\Database\Eloquent\Model;
 
 class SelectType extends Type implements InputInterface
@@ -49,9 +48,8 @@ class SelectType extends Type implements InputInterface
 
     public function render()
     {
-        return [
-            "name" => $this->getName(),
+        return array_merge(parent::render(), [
             "options" => $this->getOptions()
-        ];
+        ]);
     }
 }

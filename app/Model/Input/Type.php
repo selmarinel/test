@@ -23,10 +23,25 @@ class Type extends Model implements InputInterface
 
     public function render()
     {
-        return [
-            "name" => $this->getName(),
-        ];
+        return array_merge(["additional" => $this->getAdditional()], ["name" => $this->getName()]);
     }
+
+    /**
+     * Array like^
+     * ['class' => 'class', 'max'=>12,'min'='1']
+     * @param array $additional
+     */
+    public function setAdditional(Array $additional)
+    {
+        $this->additional = $additional;
+    }
+
+    public function getAdditional()
+    {
+        return $this->additional;
+    }
+
+    private $additional = [];
 
     const GENDER = 1;
     const ALTER = 2;

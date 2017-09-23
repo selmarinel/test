@@ -45,29 +45,39 @@ class Field extends Model
     {
         /** @var Type $type */
         $type = $this->type;
+        $rules = ["required" => 'true'];
+
         if ($type->getId() == Type::GENDER) {
-            return new GenderType($type->getAttributes());
-        }
-        if ($type->getId() == Type::PRODUCT) {
-            $select = new SelectType($type->getAttributes());
-            $select->setEntity(Produkts::class);
-            return $select;
-        }
-        if ($type->getId() == Type::CHECKBOX) {
+            $input = new GenderType($type->getAttributes());
+            $input->setAdditional($rules);
+            return $input;
+        } elseif ($type->getId() == Type::PRODUCT) {
+            $input = new SelectType($type->getAttributes());
+            $input->setAdditional($rules);
+            $input->setEntity(Produkts::class);
+            return $input;
+        } elseif ($type->getId() == Type::CHECKBOX) {
             $input = new InputType($type->getAttributes());
             $input->setType("checkbox");
+            $input->setAdditional($rules);
+            return $input;
+        } elseif ($type->getId() == Type::RATING) {
+            $input = new RatingType($type->getAttributes());
+            $input->setAdditional($rules);
             return $input;
         }
-        if ($type->getId() == Type::RATING) {
-            return new RatingType($type->getAttributes());
-        }
+
         $input = new InputType($type->getAttributes());
-        $input->setAdditional(["data-type" => $type->getName()]);
+        $rules["data-type"] = $type->getName();
 
+        if ($type->getId() == Type::AUTOCOMPLETE) {
+            $rules = array_merge($rules, ["minlength" => 3, "maxlength" => 150]);
+        }
         if ($type->getId() == Type::ALTER) {
-            $input->setAdditional(array_merge($input->getAdditional(), ["pattern" => "19[0-9]{2}", "maxlength" => 4]));
+            $rules = array_merge($rules, ["pattern" => "19[0-9]{2}", "maxlength" => 4, "max" => 1999, "min" => 1950]);
         }
 
+        $input->setAdditional($rules);
         return $input;
     }
 }

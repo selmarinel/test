@@ -17,9 +17,8 @@ class GenderType extends Type implements InputInterface
 
     public function render()
     {
-        return [
-            "name" => $this->getName(),
+        return array_merge(parent::render(), [
             "options" => $this->values
-        ];
+        ]);
     }
 }

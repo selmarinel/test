@@ -7,10 +7,9 @@ class RatingType extends Type implements InputInterface
 {
     public function render()
     {
-        return [
-            "name" => $this->getName(),
+        return array_merge(parent::render(), [
             "max" => $this->getMax()
-        ];
+        ]);
     }
 
     private $max = 5;

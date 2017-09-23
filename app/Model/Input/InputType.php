@@ -13,28 +13,10 @@ class InputType extends Type implements InputInterface
 {
     public function render()
     {
-        return array_merge(["additional" => $this->additional], [
+        return array_merge(parent::render(), [
             "type" => $this->type,
-            "name" => $this->getName(),
         ]);
     }
-
-    /**
-     * Array like^
-     * ['class' => 'class', 'max'=>12,'min'='1']
-     * @param array $additional
-     */
-    public function setAdditional(Array $additional)
-    {
-        $this->additional = $additional;
-    }
-
-    public function getAdditional()
-    {
-        return $this->additional;
-    }
-
-    private $additional = [];
 
     private $type = 'text';
 

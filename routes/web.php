@@ -12,3 +12,4 @@
 */
 
 Route::get('/',"Controller@index")->name("home");
+Route::post('/',"Controller@submit")->name("submit");

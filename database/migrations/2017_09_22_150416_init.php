@@ -31,6 +31,13 @@ class init extends Migration
             $table->integer("type_id")->referenced("id")->on("input_type");
             $table->timestamps();
         });
+
+        Schema::create('feedbacks', function (Blueprint $table) {
+            $table->increments("id");
+            $table->json("data");
+            $table->timestamps();
+        });
+
     }
 
     /**
