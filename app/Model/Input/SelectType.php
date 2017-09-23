@@ -5,7 +5,7 @@ namespace App\Model\Input;
 use App\Model\Produkts;
 use Illuminate\Database\Eloquent\Model;
 
-class SelectType extends AbstractType implements InputInterface
+class SelectType extends Type implements InputInterface
 {
 
     private $className;
@@ -27,7 +27,7 @@ class SelectType extends AbstractType implements InputInterface
         $this->options = [];
         if (class_exists($this->className)) {
             $className = $this->className;
-            $classEntity = $className();
+            $classEntity = new $className();
             if ($classEntity instanceof Model) {
                 $collection = $classEntity->newQuery()->get();
                 foreach ($collection as $model) {

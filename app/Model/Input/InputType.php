@@ -9,11 +9,11 @@
 namespace App\Model\Input;
 
 
-class InputType extends AbstractType implements InputInterface
+class InputType extends Type implements InputInterface
 {
     public function render()
     {
-        return array_merge($this->additional, [
+        return array_merge(["additional" => $this->additional], [
             "type" => $this->type,
             "name" => $this->getName(),
         ]);

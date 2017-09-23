@@ -8,7 +8,7 @@
 
 namespace App\Model\Input;
 
-class GenderType extends AbstractType implements InputInterface
+class GenderType extends Type implements InputInterface
 {
     private $values = [
         1 => "Male",
@@ -17,6 +17,9 @@ class GenderType extends AbstractType implements InputInterface
 
     public function render()
     {
-        // TODO: Implement render() method.
+        return [
+            "name" => $this->getName(),
+            "options" => $this->values
+        ];
     }
 }
