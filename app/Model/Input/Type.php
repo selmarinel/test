@@ -41,7 +41,12 @@ class Type extends Model implements InputInterface
         return $this->additional;
     }
 
-    private $additional = [];
+    protected $additional = ["required" => true];
+
+    public function addAdditional(Array $additional)
+    {
+        $this->additional = array_merge($this->getAdditional(), $additional);
+    }
 
     const GENDER = 1;
     const ALTER = 2;

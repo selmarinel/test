@@ -45,39 +45,35 @@ class Field extends Model
     {
         /** @var Type $type */
         $type = $this->type;
-        $rules = ["required" => 'true'];
+        $input = new InputType($type->getAttributes());
+        $rules = [];
+        if ($type->getId() == Type::AUTOCOMPLETE) {
+            $rules = ["minlength" => 3, "maxlength" => 150];
+        }
+        if ($type->getId() == Type::ALTER) {
+            $rules = ["pattern" => "19[0-9]{2}", "maxlength" => 4, "max" => 1999, "min" => 1950];
+        }
+
+        if ($type->getId() == Type::COST) {
+            $rules = ["pattern" => "[1-2]{0,1}?\.?\d{1,3} \€"];
+        }
 
         if ($type->getId() == Type::GENDER) {
             $input = new GenderType($type->getAttributes());
-            $input->setAdditional($rules);
-            return $input;
-        } elseif ($type->getId() == Type::PRODUCT) {
+        }
+        if ($type->getId() == Type::PRODUCT) {
             $input = new SelectType($type->getAttributes());
-            $input->setAdditional($rules);
             $input->setEntity(Produkts::class);
-            return $input;
-        } elseif ($type->getId() == Type::CHECKBOX) {
+        }
+        if ($type->getId() == Type::CHECKBOX) {
             $input = new InputType($type->getAttributes());
             $input->setType("checkbox");
-            $input->setAdditional($rules);
-            return $input;
-        } elseif ($type->getId() == Type::RATING) {
+        }
+        if ($type->getId() == Type::RATING) {
             $input = new RatingType($type->getAttributes());
-            $input->setAdditional($rules);
-            return $input;
         }
-
-        $input = new InputType($type->getAttributes());
-        $rules["data-type"] = $type->getName();
-
-        if ($type->getId() == Type::AUTOCOMPLETE) {
-            $rules = array_merge($rules, ["minlength" => 3, "maxlength" => 150]);
-        }
-        if ($type->getId() == Type::ALTER) {
-            $rules = array_merge($rules, ["pattern" => "19[0-9]{2}", "maxlength" => 4, "max" => 1999, "min" => 1950]);
-        }
-
-        $input->setAdditional($rules);
+        $input->addAdditional($rules);
+        $input->addAdditional(["data-type" => $type->getName()]);
         return $input;
     }
 }

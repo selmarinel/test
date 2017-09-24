@@ -80,6 +80,9 @@
         x = Num.split('.');
         x1 = x[0];
         x2 = x.length > 1 ? '.' + x[1] : '';
+        if (x1 + x2 >= 2000) {
+            return 2000;
+        }
         var rgx = /(\d+)(\d{3})/;
         while (rgx.test(x1))
             x1 = x1.replace(rgx, '$1' + '.' + '$2');
@@ -87,8 +90,8 @@
     }
 
     $(document).ready(function () {
-        $('form').submit(false);
         var prefixAlter = '19',
+            $form = $('form'),
             postfixCost = ' €',
             inputVal,
             $alter = $("input[data-type='alter']"),
@@ -98,7 +101,7 @@
             autocompleteList = ['Augsburg', 'München', 'Berlin', 'Ammersee', 'Münchhausen', 'Münster', 'Köln', 'Schwabmünchen'];
         $alter.val(prefixAlter);
         $cost.val("0" + postfixCost);
-
+        $form.submit(false);
         $autocomplete.autocomplete({
             source: [autocompleteList]
         });
@@ -119,13 +122,21 @@
             }
             $(this).val(inputVal + postfixCost);
         });
+        function setIcons() {
+            $.each($.validator.messages, function (item) {
+                $.validator.messages[item] = '&times;';
+            })
+        }
 
-        $("form").validate({
+        setIcons();
+
+
+        $form.validate({
             validClass: "is-valid",
             success: function (label) {
                 label.addClass("valid").text("✓")
             },
-            highlight: function (element, errorClass) {
+            highlight: function (element) {
                 $(element).removeClass("is-valid").addClass("is-invalid");
                 $(element).closest(".form-group").find('em').find("span").removeClass("valid");
             },
@@ -133,27 +144,6 @@
             errorClass: "is-invalid",
             errorElement: "span",
             wrapper: "em",
-            rules: {
-                // Because we need validate number (TODO: add rules into pattern in tag)
-                "cost": {
-                    "required": true,
-                    "min": 0,
-                    "max": 2000,
-                    normalizer: function (value) {
-                        value = value.replace(/\D+/g, "");
-                        return value;
-                    }
-                }
-            },
-            messages: {
-                "gender": "&times;",
-                "alter": "&times;",
-                "product": "&times;",
-                "cost": "&times;",
-                "checkbox": "&times;",
-                "rating": "&times;",
-                "autocomplete": "&times;"
-            },
             errorPlacement: function (error, element) {
                 error.appendTo(element.closest('.form-group'));
             },
@@ -164,11 +154,11 @@
                     dataType: "json",
                     data: $(form).serializeArray(),
                     success: function (response) {
-                        if(response.message){
+                        if (response.message) {
                             alert(response.message);
-                            setTimeout(function(){
+                            setTimeout(function () {
                                 location.reload()
-                            },2000)
+                            }, 2000)
                         }
                     }
                 });
